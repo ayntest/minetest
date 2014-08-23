@@ -1214,7 +1214,7 @@ void the_game(bool &kill, bool random_input, InputHandler *input,
 
 	if(address == ""){
 		wchar_t* text = wgettext("Creating server....");
-		draw_load_screen(text, device, guienv, font, 0, 25);
+		draw_load_screen(text, device, guienv, font, 0, 5);
 		delete[] text;
 		infostream<<"Creating server"<<std::endl;
 
@@ -1257,7 +1257,7 @@ void the_game(bool &kill, bool random_input, InputHandler *input,
 
 	{
 		wchar_t* text = wgettext("Creating client...");
-		draw_load_screen(text, device, guienv, font, 0, 50);
+		draw_load_screen(text, device, guienv, font, 0, 10);
 		delete[] text;
 	}
 	infostream<<"Creating client"<<std::endl;
@@ -1266,7 +1266,7 @@ void the_game(bool &kill, bool random_input, InputHandler *input,
 
 	{
 		wchar_t* text = wgettext("Resolving address...");
-		draw_load_screen(text, device, guienv, font, 0, 75);
+		draw_load_screen(text, device, guienv, font, 0, 15);
 		delete[] text;
 	}
 	Address connect_address(0,0,0,0, port);
@@ -1365,7 +1365,7 @@ void the_game(bool &kill, bool random_input, InputHandler *input,
 			// Display status
 			{
 				wchar_t* text = wgettext("Connecting to server...");
-				draw_load_screen(text, device, guienv, font, dtime, 100);
+				draw_load_screen(text, device, guienv, font, dtime, 20);
 				delete[] text;
 			}
 
@@ -1463,18 +1463,18 @@ void the_game(bool &kill, bool random_input, InputHandler *input,
 			}
 
 			// Display status
-			int progress=0;
+			int progress=25;
 			if (!client.itemdefReceived())
 			{
 				wchar_t* text = wgettext("Item definitions...");
-				progress = 0;
+				progress = 25;
 				draw_load_screen(text, device, guienv, font, dtime, progress);
 				delete[] text;
 			}
 			else if (!client.nodedefReceived())
 			{
 				wchar_t* text = wgettext("Node definitions...");
-				progress = 25;
+				progress = 30;
 				draw_load_screen(text, device, guienv, font, dtime, progress);
 				delete[] text;
 			}
@@ -1496,7 +1496,7 @@ void the_game(bool &kill, bool random_input, InputHandler *input,
 					}
 					message << " ( " << cur << cur_unit << " )";
 				}
-				progress = 50+client.mediaReceiveProgress()*50+0.5;
+				progress = 30+client.mediaReceiveProgress()*35+0.5;
 				message << " " << progress << "%";
 				draw_load_screen(narrow_to_wide(message.str().c_str()), device,
 						guienv, font, dtime, progress);
