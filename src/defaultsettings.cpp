@@ -165,6 +165,8 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("server_address", "");
 	settings->setDefault("server_name", "");
 	settings->setDefault("server_description", "");
+	settings->setDefault("enable_join_message", "true");
+	settings->setDefault("enable_left_message", "true");
 
 #if USE_FREETYPE
 	settings->setDefault("freetype", "true");

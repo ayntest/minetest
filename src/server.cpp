@@ -1229,6 +1229,7 @@ PlayerSAO* Server::StageTwoClientInit(u16 peer_id)
 		SendChatMessage(peer_id, getStatusString());
 
 		// Send information about joining in chat
+		if ( g_settings->getBool("enable_join_message") )
 		{
 			std::wstring name = L"unknown";
 			Player *player = m_env->getPlayer(peer_id);
@@ -4321,9 +4322,9 @@ void Server::DeleteClient(u16 peer_id, ClientDeletionReason reason)
 
 		// Collect information about leaving in chat
 		{
-			if(player != NULL && reason != CDR_DENY)
+			if( player != NULL && reason != CDR_DENY && g_settings->getBool("enable_left_message") )
 			{
-				std::wstring name = narrow_to_wide(player->getName());
+				std::wstring name = narrow_to_wide( player->getName() );
 				message += L"*** ";
 				message += name;
 				message += L" left the game.";
