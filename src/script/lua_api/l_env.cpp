@@ -34,6 +34,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "content_sao.h"
 #include "treegen.h"
 #include "pathfinder.h"
+#include "log.h"
 
 #define GET_ENV_PTR ServerEnvironment* env =                                   \
 				dynamic_cast<ServerEnvironment*>(getEnv(L));                   \
@@ -376,6 +377,8 @@ int ModApiEnvMod::l_add_entity(lua_State *L)
 		return 0;
 	// Return ObjectRef
 	getScriptApiBase(L)->objectrefGetOrCreate(obj);
+	// log entities
+	actionstream<<"Server: add_entity "<<name<<" at "<<PP(pos/BS)<<std::endl;
 	return 1;
 }
 
