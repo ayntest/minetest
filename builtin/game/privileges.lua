@@ -49,5 +49,9 @@ core.register_privilege("noclip", {
 	description = "Can fly through walls",
 	give_to_singleplayer = false,
 })
+core.register_privilege("access", {
+	description = "Can bypass any locks",
+	give_to_singleplayer = false,
+})
 core.register_privilege("rollback", "Can use the rollback functionality")
 
