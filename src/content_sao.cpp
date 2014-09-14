@@ -1283,8 +1283,11 @@ int PlayerSAO::punch(v3f dir,
 	if(!toolcap)
 		return 0;
 
+	// No effect if outside the area TODO: conf settings
+	v3f pos = m_player->getPosition();
 	// No effect if PvP disabled
-	if(g_settings->getBool("enable_pvp") == false){
+	if( g_settings->getBool("enable_pvp") == false
+		or not ( pos.X >= -550 and pos.Z <= 450 and pos.X <= -260 and pos.Z >= 190 ) ){
 		if(puncher->getType() == ACTIVEOBJECT_TYPE_PLAYER){
 			std::string str = gob_cmd_punched(0, getHP());
 			// create message and add to list
