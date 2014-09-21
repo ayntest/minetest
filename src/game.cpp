@@ -3279,6 +3279,13 @@ void the_game(bool &kill, bool random_input, InputHandler *input,
 				<<") (yaw="<<(wrapDegrees_0_360(camera_yaw))
 				<<") (seed = "<<((u64)client.getMapSeed())
 				<<")";
+
+			if (pointed.type == POINTEDTHING_NODE) {
+				ClientMap &map = client.getEnv().getClientMap();
+				MapNode n = map.getNode(pointed.node_undersurface);
+				os << " (pointing_at = " << nodedef->get(n).name << ")";
+			}
+
 			guitext2->setText(narrow_to_wide(os.str()).c_str());
 			guitext2->setVisible(true);
 
