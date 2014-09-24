@@ -1,9 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
 cd $HOME
 
 while :
 do
-	if ps --no-headers --pid $(cat server.pid) | grep minetest; then
+	if [[ -f server.pid ]]; then
 		printf 'The server is running!\n'
 		exit
 	fi
