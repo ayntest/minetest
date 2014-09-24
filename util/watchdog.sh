@@ -4,7 +4,7 @@ cd $HOME
 while :
 do
 	ps ax | grep '/minetestserver' | grep -v grep && printf 'The server is running!\n' && exit
-	
+
 	if [ -f .stop ]; then
 		rm .stop .hold
 		printf 'stopped\n'
@@ -15,7 +15,7 @@ do
 			sleep 15
 		done
 	fi
-	
+
 	while [ -f .maintenance ]; do
 		TIME=$(cat .maintenance)
 		ttytter -status="$(printf 'Maintenance completed in %d seconds' )"
