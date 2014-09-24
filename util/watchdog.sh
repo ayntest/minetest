@@ -3,7 +3,10 @@ cd $HOME
 
 while :
 do
-	ps ax | grep '/minetestserver' | grep -v grep && printf 'The server is running!\n' && exit
+	if ps --no-headers --pid $(cat server.pid) | grep minetest; then
+		printf 'The server is running!\n'
+		exit
+	fi
 
 	if [ -f .stop ]; then
 		rm .stop .hold
@@ -28,6 +31,7 @@ do
 	wait $PID
 	EC=$?
 	END=$(date +%s)
+	rm server.pid
 	if [[ $(( $END - $START )) -lt 10 ]]; then
 		printf '%s Server is not starting up!\n' $(date +%F-%T)
 		exit 1
