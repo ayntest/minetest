@@ -16,11 +16,11 @@ do
 		done
 	fi
 
-	while [ -f .maintenance ]; do
+	if [[ -f .maintenance ]]; then
 		TIME=$(cat .maintenance)
-		ttytter -status="$(printf 'Maintenance completed in %d seconds' )"
+		ttytter -status="$(printf 'Maintenance completed in %d seconds' $TIME)"
 		rm .maintenance
-	done
+	fi
 	START=$(date +%s)
 	bin/./minetestserver --config minetest.conf --world worlds/libertyland $1 &
 	PID=$!
