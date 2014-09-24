@@ -25,7 +25,7 @@ do
 		rm .maintenance
 	fi
 	START=$(date +%s)
-	bin/./minetestserver --config minetest.conf --world worlds/libertyland $1 &
+	bin/./minetestserver --config minetest.conf --world worlds/libertyland $@ &
 	PID=$!
 	printf '%s' $PID > server.pid
 	wait $PID
@@ -37,7 +37,7 @@ do
 		exit 1
 	elif [[ $EC -ne 0 ]]; then
 		printf 'applications.m-ayntest-net.crash 1 %s\n' $(date +%s) >/dev/tcp/10.129.163.189/2003
-		printf '%s\n%s---------' "$(date '+%F %T')" "$(tail -20 debug.txt|grep -iE '(error|debug)')" >> log/crashes.log
+		printf '%s\n%s---------' "$(date '+%F %T')" "$(tail -20 debug.txt|grep -iE '(error|debug)')" >> log/crashes.log #FIXME
 		ttytter -status='The server has crashed, brb!'
 	fi
 	# update news
@@ -45,6 +45,6 @@ do
 	# remove online players
 	rm -v ~/worlds/libertyland/online-players
 	# restart the script
-	[[ -f .restart_watchdog ]] && rm -v .restart_watchdog && exec $(basename $0)
+	[[ -f .restart_watchdog ]] && rm -v .restart_watchdog && exec $(basename $0) $@
 	sleep 3
 done
