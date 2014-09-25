@@ -8,9 +8,10 @@ do
 		exit
 	fi
 
-	if [ -f .stop ]; then
-		rm .stop .hold
-		printf 'stopped\n'
+	if [[ -f .stop ]]; then
+		rm .stop
+		[[ -e .hold ]] && rm .hold
+		printf 'watchdog stopped\n'
 		exit
 	else
 		while [ -f .hold ]; do
