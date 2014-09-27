@@ -19,12 +19,19 @@ do
 			sleep 15
 		done
 	fi
+	
+	# run code between restart (useful for removing deprecated stuff)
+	if [[ ! -z ~/bin/run_once.sh ]]; then
+		source ~/bin/run_once.sh
+		cat /dev/null > ~/bin/run_once.sh
+	fi
 
 	if [[ -f .maintenance ]]; then
 		TIME=$(cat .maintenance)
 		ttytter -status="$(printf 'Maintenance completed in %d seconds' $TIME)"
 		rm .maintenance
 	fi
+	
 	START=$(date +%s)
 	bin/./minetestserver --config minetest.conf --world worlds/libertyland $@ &
 	PID=$!
