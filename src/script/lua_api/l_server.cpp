@@ -41,6 +41,14 @@ int ModApiServer::l_get_server_status(lua_State *L)
 	return 1;
 }
 
+// get_max_lag()
+int ModApiServer::l_get_max_lag(lua_State *L)
+{
+	NO_MAP_LOCK_REQUIRED;
+	lua_pushnumber(L, getServer(L)->getMaxLag() );
+	return 1;
+}
+
 // chat_send_all(text)
 int ModApiServer::l_chat_send_all(lua_State *L)
 {
@@ -483,6 +491,7 @@ int ModApiServer::l_cause_error(lua_State *L)
 void ModApiServer::Initialize(lua_State *L, int top)
 {
 	API_FCT(request_shutdown);
+	API_FCT(get_max_lag);
 	API_FCT(get_server_status);
 	API_FCT(get_worldpath);
 	API_FCT(is_singleplayer);

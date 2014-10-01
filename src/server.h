@@ -208,6 +208,9 @@ public:
 	// Connection must be locked when called
 	std::wstring getStatusString();
 
+	// get max_lag
+	float getMaxLag();
+
 	// read shutdown state
 	inline bool getShutdownRequested()
 			{ return m_shutdown_requested; }

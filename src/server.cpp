@@ -4476,6 +4476,15 @@ std::wstring Server::getStatusString()
 	return os.str();
 }
 
+float Server::getMaxLag()
+{
+	if(m_env != 0) {
+		return m_env->getMaxLagEstimate();
+	} else {
+		return 0.0;
+	}
+}
+
 std::set<std::string> Server::getPlayerEffectivePrivs(const std::string &name)
 {
 	std::set<std::string> privs;
