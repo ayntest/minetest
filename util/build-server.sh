@@ -3,11 +3,6 @@ set -e
 
 libdir=~/git/lib
 
-irrlicht_version=1.8.1
-luajit_version=2.0.1
-leveldb_version=1.15
-
-
 # Get minetest
 git_hash=`git show | head -c14 | tail -c7`
 
@@ -18,7 +13,7 @@ fi
 
 cmake . \
 	-DRUN_IN_PLACE=1 \
-	-DCMAKE_CXX_FLAGS='-O3 -g' \
+	-DCMAKE_CXX_FLAGS='-O3' -DCMAKE_BUILD_TYPE=Release \
 	-DBUILD_CLIENT=0 -DBUILD_SERVER=1 \
 	\
 	-DENABLE_SOUND=0 \
