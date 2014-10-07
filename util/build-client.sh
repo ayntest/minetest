@@ -13,7 +13,6 @@ cmake . \
 	-DENABLE_SOUND=1 \
 	-DENABLE_LEVELDB=0 \
 	-DENABLE_REDIS=0 \
-	-DVERSION_EXTRA=$git_hash \
 	-DCMAKE_BUILD_TYPE=Release
 
 /usr/bin/time make -j3
