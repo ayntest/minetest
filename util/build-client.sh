@@ -13,6 +13,9 @@ cmake . \
 	-DENABLE_SOUND=1 \
 	-DENABLE_LEVELDB=0 \
 	-DENABLE_REDIS=0 \
+	-DIRRLICHT_SOURCE_DIR=~/git/irrlicht/sources \
+	-DIRRLICHT_INCLUDE_DIR=~/git/irrlicht/include \
+	-DIRRLICHT_LIBRARY=~/git/irrlicht/lib/Linux/libIrrlicht.a \
 	-DCMAKE_BUILD_TYPE=Release
 
 /usr/bin/time make -j3
