@@ -16,7 +16,7 @@ end
 if core.setting_getbool("mod_profiling") then
 	local tracefct = profiling_print_log
 	profiling_print_log = nil
-	core.register_chatcommand("save_mod_profile",
+	core.register_chatcommand("smp",
 			{
 				params      = "",
 				description = "save mod profiling data to logfile " ..
