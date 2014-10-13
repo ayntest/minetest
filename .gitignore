@@ -63,6 +63,7 @@ locale/
 *.cbp
 *.layout
 *.o
+install_manifest.txt
 
 #build variants
 build/android/assets
