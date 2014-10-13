@@ -4,6 +4,7 @@ set -e
 libdir=~/git/lib
 
 cmake . \
+	-DCMAKE_INSTALL_PREFIX="$1" \
 	-DRUN_IN_PLACE=1 \
 	-DBUILD_CLIENT=0 -DBUILD_SERVER=1 \
 	-DENABLE_CURL=1 \
