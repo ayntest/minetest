@@ -1652,9 +1652,7 @@ void the_game(bool &kill, bool random_input, InputHandler *input,
 
 	float nodig_delay_timer = 0.0;
 	float dig_time = 0.0;
-	float dig_time_decay_rate = 0.0;
-	float dig_time_complete = 0.0;
-	v3s16 dig_pos = v3s16(0,0,0);
+	u16 dig_index = 0;
 	PointedThing pointed_old;
 	bool digging = false;
 	bool ldown_for_dig = false;
@@ -2845,7 +2843,8 @@ void the_game(bool &kill, bool random_input, InputHandler *input,
 			if(!digging)
 			{
 				client.interact(1, pointed_old);
-				dig_time_decay_rate = dig_time * 0.1;
+				client.setCrack(-1, v3s16(0,0,0));
+				dig_time = 0.0;
 			}
 		}
 		if(!digging && ldown_for_dig && !input->getLeftState())
@@ -2898,14 +2897,8 @@ void the_game(bool &kill, bool random_input, InputHandler *input,
 				{
 					infostream<<"Started digging"<<std::endl;
 					client.interact(0, pointed);
-					if(dig_pos != nodepos) {
-						dig_pos = nodepos;
-						dig_time = 0;
-					}
 					digging = true;
 					ldown_for_dig = true;
-				} else {
-					dig_time += dtime;
 				}
 				MapNode n = client.getEnv().getClientMap().getNode(nodepos);
 
@@ -2921,6 +2914,8 @@ void the_game(bool &kill, bool random_input, InputHandler *input,
 					if(tp)
 						params = getDigParams(nodedef->get(n).groups, tp);
 				}
+
+				float dig_time_complete = 0.0;
 
 				if(params.diggable == false)
 				{
@@ -2940,6 +2935,17 @@ void the_game(bool &kill, bool random_input, InputHandler *input,
 					}
 				}
 
+				if(dig_time_complete >= 0.001)
+				{
+					dig_index = (u16)((float)crack_animation_length
+							* dig_time/dig_time_complete);
+				}
+				// This is for torches
+				else
+				{
+					dig_index = crack_animation_length;
+				}
+
 				SimpleSoundSpec sound_dig = nodedef->get(n).sound_dig;
 				if(sound_dig.exists() && params.diggable){
 					if(sound_dig.name == "__group"){
@@ -2954,9 +2960,21 @@ void the_game(bool &kill, bool random_input, InputHandler *input,
 					}
 				}
 
-				if(dig_time >= dig_time_complete) {
+				// Don't show cracks if not diggable
+				if(dig_time_complete >= 100000.0)
+				{
+				}
+				else if(dig_index < crack_animation_length)
+				{
+					//TimeTaker timer("client.setTempMod");
+					//infostream<<"dig_index="<<dig_index<<std::endl;
+					client.setCrack(dig_index, nodepos);
+				}
+				else
+				{
 					infostream<<"Digging completed"<<std::endl;
 					client.interact(2, pointed);
+					client.setCrack(-1, v3s16(0,0,0));
 					MapNode wasnode = map.getNode(nodepos);
 					client.removeNode(nodepos);
 
@@ -2988,6 +3006,13 @@ void the_game(bool &kill, bool random_input, InputHandler *input,
 					// Send event to trigger sound
 					MtEvent *e = new NodeDugEvent(nodepos, wasnode);
 					gamedef->event()->put(e);
+				}
+
+				if(dig_time_complete < 100000.0)
+					dig_time += dtime;
+				else {
+					dig_time = 0;
+					client.setCrack(-1, nodepos);
 				}
 
 				camera.setDigging(0);  // left click animation
@@ -3107,25 +3132,6 @@ void the_game(bool &kill, bool random_input, InputHandler *input,
 
 		input->resetLeftReleased();
 		input->resetRightReleased();
-
-		/*
-			Handle partial digging state
-		*/
-		if(!digging && dig_time > 0) {
-			dig_time -= dig_time_decay_rate * dtime;
-			if(dig_time < 0)
-				dig_time = 0;
-		}
-		if(dig_time > 0 && dig_time_complete < 100000.0) {
-			client.setCrack(dig_time_complete >= 0.001 ?
-					(u16)((float)crack_animation_length
-						* dig_time/dig_time_complete) :
-					// This is for torches
-					crack_animation_length,
-				dig_pos);
-		} else {
-			client.setCrack(-1, v3s16(0,0,0));
-		}
 
 		/*
 			Calculate stuff for drawing
