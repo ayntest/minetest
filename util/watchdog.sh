@@ -28,7 +28,7 @@ do
 
 	if [[ -f .maintenance ]]; then
 		TIME=$(cat .maintenance)
-		ttytter -status="$(printf 'Maintenance completed in %d seconds' $TIME)"
+		ttytter -status="$(printf 'Maintenance completed in %d seconds' $TIME)"&
 		rm .maintenance
 	fi
 	
@@ -45,8 +45,8 @@ do
 		exit 1
 	elif [[ $EC -ne 0 ]]; then
 		printf 'applications.m-ayntest-net.crash 1 %s\n' $(date +%s) >/dev/tcp/10.129.163.189/2003
-		printf '%s\n%s---------' "$(date '+%F %T')" "$(tail -20 debug.txt|grep -iE '(error|debug)')" >> log/crashes.log #FIXME
-		ttytter -status='The server has crashed, brb!'
+		printf '%s\n%s---------' "$(date '+%F %T')" "$(tail -10 debug.txt)" >> log/crashes.log #FIXME
+		ttytter -status='The server has crashed, brb!'&
 	fi
 	# update news
 	cp -v ~/worlds/libertyland/news.txt ~/worlds/libertyland/text/news
