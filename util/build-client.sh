@@ -2,6 +2,7 @@
 set -e
 
 cmake . \
+	-DCMAKE_INSTALL_PREFIX='/usr/local' \
 	-DCMAKE_CXX_FLAGS='-O3' \
 	-DRUN_IN_PLACE=0 \
 	-DBUILD_SERVER=0 \
