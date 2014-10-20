@@ -3,7 +3,7 @@ set -e
 
 cmake . \
 	-DCMAKE_INSTALL_PREFIX='/usr/local' \
-	-DCMAKE_CXX_FLAGS='-O3' \
+	-DCMAKE_CXX_FLAGS='-O3 -g' \
 	-DRUN_IN_PLACE=0 \
 	-DBUILD_SERVER=0 \
 	-DBUILD_CLIENT=1 \
