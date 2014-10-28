@@ -1,9 +1,4 @@
 -- Written by rubenwardy, WTFPL
--- To use:
--- * Save as mod_debug.lua in builtin/game
--- * add dofile(gamepath.."mod_debug.lua") to the last line of builtin/game/init.lua
--- OR
--- * Install as a mod. Needs to be run before any other mod.
 
 -- check the settings
 local mod = {}
@@ -53,7 +48,7 @@ end
 function mod.assert(_name,output)
 	local name = mod.strip_name(_name)
 	if (name==nil) then
-		print("[RECIPE ERROR] nil in recipe for "..mod.strip_name(output))
+		core.log( 'error', 'nil in recipe for '..mod.strip_name(output) )
 		return
 	end
 	
@@ -62,7 +57,7 @@ function mod.assert(_name,output)
 	end
 
 	if (minetest.registered_items[name] == nil and not group_exists(name)) then
-		print("[RECIPE ERROR] "..name.." in recipe for "..mod.strip_name(output))
+		core.log( 'error', 'missing item '..name.." in recipe for "..mod.strip_name(output) )
 	end
 end
 
@@ -104,7 +99,7 @@ end
 
 
 minetest.after(0, function()
-	print("[DEBUG] checking recipes")
+	core.log( 'action', 'Checking recipes' )
 	for i=1,# mod.recipes do
 		if mod.recipes[i] and mod.recipes[i].output then
 			mod.assert(mod.recipes[i].output,mod.recipes[i].output)
