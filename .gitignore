@@ -64,6 +64,7 @@ locale/
 *.layout
 *.o
 install_manifest.txt
+description-pak
 
 #build variants
 build/android/assets
